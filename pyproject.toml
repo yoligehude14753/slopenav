@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "slopenav"
+version = "0.1.0"
+description = "Dual-slope iteration decision algorithm for AI agent quality convergence"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.11"
+keywords = ["llm", "agent", "iteration", "convergence", "slope", "decision"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+# 零外部依赖（纯算法）
+dependencies = []
+
+[project.optional-dependencies]
+numpy = ["numpy>=1.26"]   # 可选：加速矩阵运算（默认用纯 Python）
+bench = [
+    "slopenav[numpy]",
+    "pandas>=2.0",
+    "scipy>=1.12",
+    "matplotlib>=3.8",
+    "hypothesis>=6.100",
+]
+dev = [
+    "slopenav[numpy]",
+    "pytest>=8.2",
+    "pytest-cov>=5.0",
+    "hypothesis>=6.100",
+]
+
+[project.urls]
+Homepage = "https://github.com/yoli/slopenav"
+Documentation = "https://github.com/yoli/slopenav/blob/main/README.md"
+Repository = "https://github.com/yoli/slopenav"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/slopenav"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/", "tests/", "README.md", "pyproject.toml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+
+[tool.coverage.run]
+source = ["src/slopenav"]
+omit = ["tests/*"]

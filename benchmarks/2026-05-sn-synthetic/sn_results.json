@@ -1,0 +1,90 @@
+{
+  "p0": {
+    "result": {
+      "phase": "p0",
+      "n_traces": 200,
+      "strategies": {
+        "slopenav": {
+          "avg_iter": 3.37,
+          "success_rate": 0.795,
+          "n": 200
+        },
+        "fixed-3": {
+          "avg_iter": 3.0,
+          "success_rate": 0.3,
+          "n": 200
+        }
+      }
+    },
+    "check": {
+      "phase": "P0",
+      "verdict": "PASS ✅",
+      "details": {
+        "slopenav_avg_iter": 3.37,
+        "slopenav_success": 0.795,
+        "fixed3_avg_iter": 3.0,
+        "fixed3_success": 0.3,
+        "all_reasonable": true
+      },
+      "go": true
+    }
+  },
+  "p1": {
+    "result": {
+      "phase": "p1",
+      "n_traces": 500,
+      "strategies": {
+        "slopenav": {
+          "avg_iter": 3.38,
+          "success_rate": 0.79,
+          "n": 500
+        },
+        "fixed-3": {
+          "avg_iter": 3.0,
+          "success_rate": 0.32,
+          "n": 500
+        },
+        "fixed-5": {
+          "avg_iter": 5.0,
+          "success_rate": 0.588,
+          "n": 500
+        },
+        "threshold-0.75": {
+          "avg_iter": 3.742,
+          "success_rate": 0.784,
+          "n": 500
+        },
+        "oracle": {
+          "avg_iter": 5.986,
+          "success_rate": 0.588,
+          "n": 500
+        }
+      }
+    },
+    "check": {
+      "phase": "P1",
+      "verdict": "PASS ✅ → GO to P2",
+      "details": {
+        "efficiency_dominates_fixed5": true,
+        "success_beats_fixed3": true,
+        "slopenav": {
+          "avg_iter": 3.38,
+          "success": 0.79,
+          "efficiency": 0.2337
+        },
+        "fixed-3": {
+          "avg_iter": 3.0,
+          "success": 0.32,
+          "efficiency": 0.1067
+        },
+        "fixed-5": {
+          "avg_iter": 5.0,
+          "success": 0.588,
+          "efficiency": 0.1176
+        },
+        "criteria": "SlopeNav efficiency(0.2337) > fixed-5(0.1176)  AND SlopeNav success(0.790) > fixed-3(0.320)"
+      },
+      "go": true
+    }
+  }
+}

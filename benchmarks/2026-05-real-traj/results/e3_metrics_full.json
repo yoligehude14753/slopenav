@@ -1,0 +1,37 @@
+{
+  "SlopeNav": {
+    "n": 100,
+    "success_rate": 0.93,
+    "avg_iter": 1.72,
+    "efficiency": 0.5407,
+    "precision_oracle": 0.8247
+  },
+  "Fixed-3": {
+    "n": 100,
+    "success_rate": 0.88,
+    "avg_iter": 3.0,
+    "efficiency": 0.2933,
+    "precision_oracle": 0.0619
+  },
+  "Fixed-4 (SR)": {
+    "n": 100,
+    "success_rate": 0.91,
+    "avg_iter": 4.0,
+    "efficiency": 0.2275,
+    "precision_oracle": 0.0412
+  },
+  "Fixed-5": {
+    "n": 100,
+    "success_rate": 0.88,
+    "avg_iter": 5.0,
+    "efficiency": 0.176,
+    "precision_oracle": 0.0103
+  },
+  "Δ-threshold": {
+    "n": 100,
+    "success_rate": 0.95,
+    "avg_iter": 1.43,
+    "efficiency": 0.6643,
+    "precision_oracle": 0.9072
+  }
+}

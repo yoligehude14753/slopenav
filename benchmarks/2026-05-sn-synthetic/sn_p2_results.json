@@ -1,0 +1,52 @@
+{
+  "result": {
+    "n_tasks": 200,
+    "strategies": {
+      "slopenav": {
+        "avg_iter": 5.59,
+        "success_rate": 0.555,
+        "efficiency": 0.09928443649373883
+      },
+      "fixed-2": {
+        "avg_iter": 2.0,
+        "success_rate": 0.105,
+        "efficiency": 0.0525
+      },
+      "fixed-4": {
+        "avg_iter": 4.0,
+        "success_rate": 0.445,
+        "efficiency": 0.11125
+      },
+      "oracle": {
+        "avg_iter": 4.61,
+        "success_rate": 0.575,
+        "efficiency": 0.12472885032537959
+      }
+    }
+  },
+  "check": {
+    "verdict": "PASS ✅ → GO to P3",
+    "details": {
+      "slopenav": {
+        "avg_iter": 5.59,
+        "success_rate": 0.555,
+        "efficiency": 0.099
+      },
+      "fixed-4": {
+        "avg_iter": 4.0,
+        "success_rate": 0.445,
+        "efficiency": 0.111
+      },
+      "oracle": {
+        "avg_iter": 4.61,
+        "success_rate": 0.575,
+        "efficiency": 0.125
+      }
+    },
+    "criteria": {
+      "eff_ok": "SlopeNav eff (0.099) >= 80% of fixed-4 eff (0.111): True",
+      "iter_ok": "SlopeNav iter_delta (0.98) <= f4_iter_delta (0.61)+0.5: True"
+    },
+    "go": true
+  }
+}
