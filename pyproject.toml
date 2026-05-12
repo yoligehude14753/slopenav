@@ -5,20 +5,25 @@ build-backend = "hatchling.build"
 [project]
 name = "slopenav"
 version = "0.1.0"
-description = "Dual-slope iteration decision algorithm for AI agent quality convergence"
+description = "A stopping criterion for long-running coding agents (Self-Refine, Reflexion, Claude Code, Codex, AutoGen, CrewAI, Letta)"
 readme = "README.md"
 license = { text = "Apache-2.0" }
 requires-python = ">=3.11"
-keywords = ["llm", "agent", "iteration", "convergence", "slope", "decision"]
+authors = [{ name = "Yuli Gao" }]
+keywords = ["llm", "agent", "coding-agent", "iteration", "convergence", "stopping-criterion", "self-refine", "reflexion"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
     "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-# 零外部依赖（纯算法）
+# Zero required dependencies (pure-Python algorithm).
 dependencies = []
 
 [project.optional-dependencies]
@@ -38,9 +43,11 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yoli/slopenav"
-Documentation = "https://github.com/yoli/slopenav/blob/main/README.md"
-Repository = "https://github.com/yoli/slopenav"
+Homepage = "https://github.com/yoligehude14753/slopenav"
+Documentation = "https://github.com/yoligehude14753/slopenav/blob/main/README.md"
+Repository = "https://github.com/yoligehude14753/slopenav"
+Issues = "https://github.com/yoligehude14753/slopenav/issues"
+Paper = "https://github.com/yoligehude14753/slopenav/blob/main/docs/PAPER.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/slopenav"]
