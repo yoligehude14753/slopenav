@@ -7,6 +7,7 @@ from slopenav import Decision, SlopeNav
 
 # ── Happy Path ───────────────────────────────────────────────────────────────
 
+
 def test_monotonic_increasing_delivers():
     """单调递增序列最终交付。"""
     nav = SlopeNav(min_threshold=0.80)
@@ -37,7 +38,9 @@ def test_good_enough_with_flat_slope_delivers():
     scores = [0.80, 0.82, 0.84, 0.85, 0.85, 0.85]
     decisions = [nav.step(i, s) for i, s in enumerate(scores)]
     final = decisions[-1]
-    assert final.action == "deliver", f"足够好+斜率平坦应交付，实际: {final.action} ({final.reason})"
+    assert final.action == "deliver", (
+        f"足够好+斜率平坦应交付，实际: {final.action} ({final.reason})"
+    )
 
 
 def test_returns_decision_dataclass():
@@ -52,13 +55,15 @@ def test_returns_decision_dataclass():
 
 # ── Sad Path ─────────────────────────────────────────────────────────────────
 
+
 def test_persistent_low_score_eventually_terminates():
     """持续低分不会无限 continue。"""
     nav = SlopeNav(min_threshold=0.80, max_pivots=1)
     decisions = [nav.step(i, 0.30) for i in range(15)]
     actions = [d.action for d in decisions]
-    assert "deliver" in actions or "pivot" in actions, \
+    assert "deliver" in actions or "pivot" in actions, (
         f"持续低分应终止，实际 actions: {actions}"
+    )
 
 
 def test_declining_scores_pivot_or_deliver():
@@ -67,13 +72,13 @@ def test_declining_scores_pivot_or_deliver():
     scores = [0.80, 0.75, 0.70, 0.65, 0.60, 0.55, 0.50]
     decisions = [nav.step(i, s) for i, s in enumerate(scores)]
     final = decisions[-1]
-    assert final.action in ("pivot", "deliver"), \
+    assert final.action in ("pivot", "deliver"), (
         f"下降序列应 pivot 或 deliver，实际: {final.action}"
+    )
 
 
 def test_nan_score_no_crash():
     """score 为 NaN 不崩溃（Python float('nan') 不触发异常）。"""
-    import math
     nav = SlopeNav()
     nav.step(0, 0.5)
     # NaN 应当被接受，不抛异常（斜率计算可能产生 NaN，但 decide() 应处理）
@@ -86,6 +91,7 @@ def test_nan_score_no_crash():
 
 # ── 边界场景 ───────────────────────────────────────────────────────────────────
 
+
 def test_max_pivots_reached_delivers():
     """达到最大 pivot 次数后不再 pivot，改为 deliver。"""
     nav = SlopeNav(min_threshold=0.80, max_pivots=1)
@@ -94,7 +100,9 @@ def test_max_pivots_reached_delivers():
         nav.step(i, 0.40)
     # 此时 pivot_count 应已达到上限，再次停滞时应 deliver
     final = nav.step(9, 0.40)
-    assert final.action in ("deliver", "pivot"), f"pivot 耗尽后应 deliver，实际: {final.action}"
+    assert final.action in ("deliver", "pivot"), (
+        f"pivot 耗尽后应 deliver，实际: {final.action}"
+    )
 
 
 def test_two_independent_navs_do_not_interfere():
@@ -124,8 +132,14 @@ def test_long_sequence_no_memory_explosion():
 def test_verdict_progress_enables_richer_decisions():
     """传入 verdicts 后，VerdictProgress 被计算并附在决策上。"""
     nav = SlopeNav()
-    v1 = [{"question": "Q1", "is_positive": False}, {"question": "Q2", "is_positive": True}]
-    v2 = [{"question": "Q1", "is_positive": True}, {"question": "Q2", "is_positive": True}]
+    v1 = [
+        {"question": "Q1", "is_positive": False},
+        {"question": "Q2", "is_positive": True},
+    ]
+    v2 = [
+        {"question": "Q1", "is_positive": True},
+        {"question": "Q2", "is_positive": True},
+    ]
 
     nav.step(0, 0.70, verdicts=v1)
     d = nav.step(1, 0.75, verdicts=v2)

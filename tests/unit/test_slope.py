@@ -8,6 +8,7 @@ from slopenav.slope.linear import compute_linear_slope
 
 # ── LinearEstimator ───────────────────────────────────────────────────────────
 
+
 def test_linear_perfect_increase():
     points = [(0, 0.0), (1, 0.1), (2, 0.2), (3, 0.3)]
     slope = compute_linear_slope(points)
@@ -41,6 +42,7 @@ def test_linear_two_points():
 
 
 # ── EMAEstimator ──────────────────────────────────────────────────────────────
+
 
 def test_ema_increasing_trend_positive():
     points = [(i, 0.5 + i * 0.1) for i in range(6)]

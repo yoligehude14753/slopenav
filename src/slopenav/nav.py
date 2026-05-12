@@ -17,7 +17,6 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple
 
 from slopenav.decision.tree import (
-    EXCELLENT_CEILING,
     HIGH_SLOPE_LINEAR,
     decide,
 )
@@ -99,7 +98,7 @@ class SlopeNav:
             self._best_iteration = iteration
 
         # 计算斜率
-        recent = self._score_history[-self.window:]
+        recent = self._score_history[-self.window :]
         linear_slope = compute_linear_slope(recent)
         ema_slope = compute_ema_slope(recent, alpha=self.ema_alpha)
 

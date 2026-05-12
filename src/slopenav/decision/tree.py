@@ -12,11 +12,11 @@ from slopenav.domain.models import Decision, VerdictProgress
 
 # ── 常量（论文 Table 1）────────────────────────────────────────────────────────
 
-EXCELLENT_CEILING = 0.88       # 直接交付的优秀分数线
-HIGH_SLOPE_LINEAR = 0.05       # 线性斜率"显著上升"阈值
-HIGH_SLOPE_EMA = 0.03          # EMA 斜率"显著上升"阈值
+EXCELLENT_CEILING = 0.88  # 直接交付的优秀分数线
+HIGH_SLOPE_LINEAR = 0.05  # 线性斜率"显著上升"阈值
+HIGH_SLOPE_EMA = 0.03  # EMA 斜率"显著上升"阈值
 VERDICT_STABILITY_DELIVER = 0.85  # verdict 稳定度到此 → 可交付
-GOOD_ENOUGH_THRESHOLD = 0.85   # 足够好 + 斜率平坦 → 交付
+GOOD_ENOUGH_THRESHOLD = 0.85  # 足够好 + 斜率平坦 → 交付
 PATIENCE_EXHAUSTED_ITERS = 10  # 超过此轮数后强制交付
 
 
@@ -50,11 +50,15 @@ def decide(
         require_min_evals: 最少需要几个数据点才开始决策。
         vp: verdict 级别进展（None 表示数据不足）。
     """
+
     def _d(action: str, reason: str) -> Decision:
         return Decision(
-            action=action, reason=reason,
-            slope_linear=linear_slope, slope_ema=ema_slope,
-            current_score=current_score, best_score=best_score,
+            action=action,
+            reason=reason,
+            slope_linear=linear_slope,
+            slope_ema=ema_slope,
+            current_score=current_score,
+            best_score=best_score,
             verdict_progress=vp,
         )
 
@@ -79,7 +83,11 @@ def decide(
         return _d("continue", "verdict_regression_detected")
 
     # Rule 3: 足够好 + 斜率平坦 → 交付
-    if current_score >= GOOD_ENOUGH_THRESHOLD and linear_slope < 0.05 and ema_slope < 0.03:
+    if (
+        current_score >= GOOD_ENOUGH_THRESHOLD
+        and linear_slope < 0.05
+        and ema_slope < 0.03
+    ):
         return _d("deliver", "good_enough_score")
 
     # Rule 4: 任一斜率显著上升 → 继续

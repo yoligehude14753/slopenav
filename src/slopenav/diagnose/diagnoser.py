@@ -13,7 +13,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any, List
 
 from slopenav.domain.models import StagnationDiagnosis
 
@@ -34,7 +34,9 @@ def diagnose_stagnation(
         StagnationDiagnosis
     """
     if len(score_history) < 3:
-        return StagnationDiagnosis(cause="unclear", confidence=0.3, detail="history too short")
+        return StagnationDiagnosis(
+            cause="unclear", confidence=0.3, detail="history too short"
+        )
 
     recent = score_history[-3:]
     avg_recent = sum(recent) / len(recent)
@@ -45,14 +47,20 @@ def diagnose_stagnation(
         return getattr(r, key, default)
 
     file_producers = [
-        r for r in tool_results
-        if _get(r, "success") and (
-            _get(r, "path") or _get(r, "file_url") or
-            _get(r, "files") or _get(r, "filename")
+        r
+        for r in tool_results
+        if _get(r, "success")
+        and (
+            _get(r, "path")
+            or _get(r, "file_url")
+            or _get(r, "files")
+            or _get(r, "filename")
         )
     ]
     tool_failures = [r for r in tool_results if _get(r, "success") is False]
-    total_tools = len([r for r in tool_results if isinstance(r, dict) or hasattr(r, "__dict__")])
+    total_tools = len(
+        [r for r in tool_results if isinstance(r, dict) or hasattr(r, "__dict__")]
+    )
 
     # 有文件产出但分数卡在低位 → 评分器盲区
     if file_producers and avg_recent < min_threshold * 0.8:

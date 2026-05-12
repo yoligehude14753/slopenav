@@ -28,13 +28,18 @@ def compute_verdict_progress(
     Returns:
         VerdictProgress
     """
+
     def _get(v: Any, key: str, default=None):
         if isinstance(v, dict):
             return v.get(key, default)
         return getattr(v, key, default)
 
-    prev_map = {_get(v, "question", ""): _get(v, "is_positive", True) for v in prev_verdicts}
-    curr_map = {_get(v, "question", ""): _get(v, "is_positive", True) for v in curr_verdicts}
+    prev_map = {
+        _get(v, "question", ""): _get(v, "is_positive", True) for v in prev_verdicts
+    }
+    curr_map = {
+        _get(v, "question", ""): _get(v, "is_positive", True) for v in curr_verdicts
+    }
 
     common_qs = set(prev_map.keys()) & set(curr_map.keys())
     flipped_pos = [q for q in common_qs if not prev_map[q] and curr_map[q]]
@@ -43,7 +48,9 @@ def compute_verdict_progress(
     stable_count = sum(1 for q in common_qs if prev_map[q] == curr_map[q])
     stability = stable_count / len(common_qs) if common_qs else 0.5
 
-    persistent = _find_persistent_failures(verdict_history, persistent_failure_threshold)
+    persistent = _find_persistent_failures(
+        verdict_history, persistent_failure_threshold
+    )
 
     return VerdictProgress(
         flipped_positive=flipped_pos,
@@ -62,7 +69,7 @@ def _find_persistent_failures(
         return []
 
     sorted_iters = sorted(verdict_history.keys())
-    check_window = sorted_iters[-min(threshold, len(sorted_iters)):]
+    check_window = sorted_iters[-min(threshold, len(sorted_iters)) :]
 
     def _get(v: Any, key: str, default=None):
         if isinstance(v, dict):

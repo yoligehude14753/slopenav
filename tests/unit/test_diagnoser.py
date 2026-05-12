@@ -1,6 +1,5 @@
 """单元测试 — StagnationDiagnoser 三种停滞原因覆盖。"""
 
-import pytest
 from slopenav.diagnose.diagnoser import diagnose_stagnation
 
 
@@ -10,12 +9,14 @@ def _tool(success: bool, **kwargs) -> dict:
 
 class _ObjTool:
     """非 dict 的工具结果（测试 getattr 路径）。"""
+
     def __init__(self, success, path=None):
         self.success = success
         self.path = path
 
 
 # ── 基础路径 ─────────────────────────────────────────────────────────────────
+
 
 def test_short_history_returns_unclear():
     result = diagnose_stagnation([0.5, 0.4], [])
@@ -29,6 +30,7 @@ def test_no_signals_returns_unclear():
 
 
 # ── eval_blind_spot ──────────────────────────────────────────────────────────
+
 
 def test_eval_blind_spot_detected_when_file_produced_low_score():
     """有文件产出但分数卡在低位 → eval_blind_spot。"""
@@ -51,6 +53,7 @@ def test_eval_blind_spot_uses_getattr_for_object_tool():
 
 # ── capability_limit (tool failures) ─────────────────────────────────────────
 
+
 def test_capability_limit_high_failure_rate():
     """工具失败率 >70% → capability_limit。"""
     tool_results = [_tool(False)] * 4 + [_tool(True)]  # 4/5 = 80% failure
@@ -67,6 +70,7 @@ def test_capability_limit_borderline_failure_does_not_trigger():
 
 
 # ── capability_limit (flat score) ────────────────────────────────────────────
+
 
 def test_capability_limit_flat_score_no_tools():
     """分数极低且无成功工具 → capability_limit（flat 路径）。"""
