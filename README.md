@@ -1,11 +1,15 @@
 # slopenav
 
-**Dual-slope iteration decision algorithm for AI agent quality convergence.**
-
-Zero external dependencies. Pure Python ≥ 3.11.
+**A stopping criterion for long-running coding agents.** Decides between `continue` / `pivot` / `deliver` on every iteration of a Self-Refine, Reflexion, Claude Code SDK, Codex CLI, AutoGen / CrewAI / Letta loop. Zero required dependencies, pure Python ≥ 3.11, ~500 LOC.
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://python.org)
+
+## Why this exists
+
+Self-Refine ships with a fixed iteration budget of 4. Reflexion typically uses 3–5. Claude Code, Codex CLI, Cursor Composer, and Aider effectively run until a hand-coded heuristic or a token cap fires. None of these adapt to the actual trajectory of the agent — easy tasks burn tokens past convergence, hard tasks get cut off before they would have improved.
+
+SlopeNav consumes a sequence of quality scores plus optional per-criterion binary verdicts and emits one of `continue` / `pivot` / `deliver`. It tracks two slopes in parallel (windowed OLS for the long-run trend, EMA difference for local momentum), looks at per-criterion progress (which sub-criteria are persistently failing → cleanest pivot signal), and routes the inputs through a deterministic 9-rule decision tree that is small enough to read end-to-end.
 
 ## Quick Start
 
@@ -52,15 +56,28 @@ SlopeNav: Dual-Slope Convergence Tracking for Efficient Iterative AI Agents (arX
 
 ## Validation
 
-Evaluated on 100 real Self-Refine trajectories (FLASK tasks × `gpt-4o-mini`, scored by QAG-Gate):
+Evaluated on 100 real Self-Refine trajectories (FLASK instructions × `gpt-4o-mini`, every iteration scored by QAG-Gate):
 
 | Strategy | Success Rate | Avg Iterations | Efficiency |
 |----------|-------------|----------------|------------|
 | **SlopeNav** | **0.930** | **1.72** | **0.541** |
-| Fixed-5 | 0.880 | 5.00 | 0.176 |
 | Fixed-4 (Self-Refine default) | 0.910 | 4.00 | 0.228 |
+| Fixed-5 | 0.880 | 5.00 | 0.176 |
+| Δ-threshold (tuned early-stop) | 0.950 | 1.43 | 0.664 |
 
-3.07× efficiency vs Fixed-5 on this benchmark. Full experiment scripts in [`benchmarks/`](benchmarks/).
+**Honest negative comparison.** On *this* corpus the QAG scores are nearly flat (~0.85 at every iteration), so a plain Δ-threshold baseline outperforms SlopeNav on efficiency. SlopeNav's slope-and-verdict design pays off on trajectories where the score actually moves — e.g. the synthetic regimes in [`docs/PAPER.md`](docs/PAPER.md) §5.1 where SlopeNav reaches 2.0× the efficiency of Fixed-5. We report both rather than cherry-picking.
+
+Full experiment scripts in [`benchmarks/`](benchmarks/).
+
+## Works with
+
+SlopeNav is evaluator-agnostic — it consumes any sequence of `(score, optional verdicts)`:
+
+- **QAG-Gate** (recommended; verdicts unlock the persistent-failure pivot signal)
+- **G-Eval, RAGAS, MT-Bench judge prompt** (scalar score only; verdict-level features degrade gracefully)
+- Custom heuristics, unit-test pass rates, build-success flags
+
+Drop-in for **Self-Refine, Reflexion, ReAct, AutoGen, CrewAI, Letta, LangGraph**, or any agent loop that already produces a per-iteration scalar.
 
 ## Development
 
