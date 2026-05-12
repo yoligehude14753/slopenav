@@ -1,7 +1,13 @@
 # SlopeNav: A Stopping Criterion for Long-Running Coding Agents
 
-> Draft v1.2 · 2026-05-12  
-> Target: arXiv technical report; possibly merged with the QAG-Gate paper for EMNLP 2026 Demo  
+**Yuli Gao**  
+*Independent Researcher*
+
+**Code**: <https://github.com/yoligehude14753/slopenav> (Apache 2.0)  
+**Companion paper**: QAG-Gate — <https://github.com/yoligehude14753/qag-gate>
+
+> Draft v1.3 · 2026-05-13  
+> Target: arXiv technical report (cs.CL, cs.LG); EMNLP 2026 System Demonstrations  
 > Length target: 9,000–12,000 words (camera ready)
 
 ---
