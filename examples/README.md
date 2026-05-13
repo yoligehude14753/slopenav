@@ -109,6 +109,13 @@ iter  score   action     reason                           lin      ema      pivo
 final: pivot detected at iter=3, deliver at iter=4, best=0.420
 ```
 
+## More integrations
+
+For copy-paste-ready snippets that wire SlopeNav into Claude Code SDK, Aider,
+AutoGen, CrewAI, Letta, LangGraph — plus an evaluator-agnostic G-Eval example
+showing how to use SlopeNav *without* QAG-Gate — see
+[`docs/INTEGRATIONS.md`](../docs/INTEGRATIONS.md).
+
 ## Notes
 
 - Examples 1, 3, 4 are deterministic and require no network access.
