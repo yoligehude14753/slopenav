@@ -2,8 +2,12 @@
 
 **A stopping criterion for long-running coding agents.** Decides between `continue` / `pivot` / `deliver` on every iteration of a Self-Refine, Reflexion, Claude Code SDK, Codex CLI, AutoGen / CrewAI / Letta loop. Zero required dependencies, pure Python ≥ 3.11, ~500 LOC.
 
+[![PyPI](https://img.shields.io/pypi/v/slopenav?cacheSeconds=300)](https://pypi.org/project/slopenav/)
+[![Python](https://img.shields.io/pypi/pyversions/slopenav?cacheSeconds=300)](https://pypi.org/project/slopenav/)
+[![CI](https://github.com/yoligehude14753/slopenav/actions/workflows/ci.yml/badge.svg)](https://github.com/yoligehude14753/slopenav/actions/workflows/ci.yml)
+[![Coverage](https://codecov.io/gh/yoligehude14753/slopenav/branch/main/graph/badge.svg)](https://codecov.io/gh/yoligehude14753/slopenav)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://python.org)
+[![Paper](https://img.shields.io/badge/paper-arXiv-orange)](docs/PAPER.md)
 
 ## Why this exists
 
@@ -78,6 +82,8 @@ SlopeNav is evaluator-agnostic — it consumes any sequence of `(score, optional
 - Custom heuristics, unit-test pass rates, build-success flags
 
 Drop-in for **Self-Refine, Reflexion, ReAct, AutoGen, CrewAI, Letta, LangGraph**, or any agent loop that already produces a per-iteration scalar.
+
+Copy-paste-ready integration snippets (including a non-QAG-Gate G-Eval example) are in [`docs/INTEGRATIONS.md`](docs/INTEGRATIONS.md).
 
 ## Development
 
